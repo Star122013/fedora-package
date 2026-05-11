@@ -8,12 +8,15 @@ URL:            https://github.com/neurosnap/zmx
 Source0:        https://github.com/neurosnap/zmx/archive/refs/tags/v%{version}.zip
 
 BuildRequires:  (zig >= 0.15.2 with zig < 0.16)
+BuildRequires:  tar
+BuildRequires:  git-core
+BuildRequires:  glibc-devel
 
 %description
 Session persistence for terminal processes.
 
 %prep
-%autosetup
+%autosetup 
 
 
 %build

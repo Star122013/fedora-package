@@ -32,7 +32,6 @@ zig-out/bin/zmx completions bash > %{buildroot}%{_datadir}/bash-completion/compl
 zig-out/bin/zmx completions zsh  > %{buildroot}%{_datadir}/zsh/site-functions/_zmx
 zig-out/bin/zmx completions fish > %{buildroot}%{_datadir}/fish/vendor_completions.d/zmx.fish
 
-
 %files
 %license LICENSE
 %doc README.md CHANGELOG.md

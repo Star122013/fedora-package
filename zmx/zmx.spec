@@ -18,7 +18,6 @@ Session persistence for terminal processes.
 %prep
 %autosetup 
 
-
 %build
 zig build -Doptimize=ReleaseSafe --prefix "zig-out"
 

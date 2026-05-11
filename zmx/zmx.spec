@@ -18,7 +18,9 @@ Session persistence for terminal processes.
 %autosetup 
 
 %build
-zig build -Doptimize=ReleaseSafe -Dtarget=native-linux-gnu.2.43 --prefix "zig-out"
+# Zig does not automatically honor RPM's LDFLAGS for build-id, so pass it explicitly.
+# Avoid pinning an exact glibc minor version; Zig 0.15 currently falls back from 2.43 to 2.42.
+zig build --build-id=sha1 -Doptimize=ReleaseSafe -Dtarget=native-linux-gnu --prefix "zig-out"
 
 %install
 install -Dm755 zig-out/bin/zmx %{buildroot}%{_bindir}/zmx
@@ -36,8 +38,8 @@ zig-out/bin/zmx completions fish > %{buildroot}%{_datadir}/fish/vendor_completio
 %doc README.md CHANGELOG.md
 %{_bindir}/zmx
 %{_datadir}/bash-completion/completions/zmx
-%{_datadir}/zsh-completion/completions/zmx
-%{_datadir}/fish-completion/completions/zmx
+%{_datadir}/zsh/site-functions/_zmx
+%{_datadir}/fish/vendor_completions.d/zmx.fish
 
 %changelog
 %autochangelog

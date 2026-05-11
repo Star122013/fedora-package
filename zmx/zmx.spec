@@ -5,7 +5,7 @@ Summary:        Session persistence for terminal processes.
 
 License:        MIT
 URL:            https://github.com/neurosnap/zmx
-Source0:        https://github.com/neurosnap/zmx/archive/refs/tags/v%{version}.zip
+Source0:        https://github.com/neurosnap/zmx/archive/refs/tags/v%{version}.tar.gz
 
 BuildRequires:  (zig >= 0.15.2 with zig < 0.16)
 BuildRequires:  tar

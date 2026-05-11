@@ -18,14 +18,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      
+      - name: Install copr-cli
+        run: dnf install -y git copr-cli tar
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           
-      - name: Install copr-cli
-        run: dnf install -y git copr-cli tar
 
       - name: Get changed packages
         id: changed-files

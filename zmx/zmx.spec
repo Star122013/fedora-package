@@ -10,7 +10,6 @@ Source0:        https://github.com/neurosnap/zmx/archive/refs/tags/v%{version}.t
 BuildRequires:  (zig >= 0.15.2 with zig < 0.16)
 BuildRequires:  tar
 BuildRequires:  git-core
-BuildRequires:  glibc-devel
 
 %description
 Session persistence for terminal processes.
@@ -19,7 +18,7 @@ Session persistence for terminal processes.
 %autosetup 
 
 %build
-zig build -Doptimize=ReleaseSafe --prefix "zig-out"
+zig build -Doptimize=ReleaseSafe -Dtarget=native-linux-gnu.2.43 --prefix "zig-out"
 
 %install
 install -Dm755 zig-out/bin/zmx %{buildroot}%{_bindir}/zmx

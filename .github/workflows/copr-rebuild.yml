@@ -66,5 +66,5 @@ jobs:
       - name: Rebuild in Copr
         run: |
           for file in ${{ steps.changed-files.outputs.files }}; do
-            copr-cli build-package misc-packages --name $(basename $file .spec) --nowait --enable-net
+            copr-cli build-package misc-packages --name $(basename $file .spec) --nowait
           done

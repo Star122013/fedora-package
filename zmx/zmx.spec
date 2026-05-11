@@ -43,4 +43,3 @@ zig-out/bin/zmx completions fish > %{buildroot}%{_datadir}/fish/vendor_completio
 
 %changelog
 %autochangelog
-

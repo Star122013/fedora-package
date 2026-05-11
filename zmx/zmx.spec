@@ -42,8 +42,6 @@ zig-out/bin/zmx completions fish > %{buildroot}%{_datadir}/fish/vendor_completio
 %{_datadir}/zsh-completion/completions/zmx
 %{_datadir}/fish-completion/completions/zmx
 
-
-
 %changelog
 %autochangelog
 

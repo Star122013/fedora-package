@@ -21,7 +21,6 @@ Session persistence for terminal processes.
 %build
 zig build -Doptimize=ReleaseSafe --prefix "zig-out"
 
-
 %install
 install -Dm755 zig-out/bin/zmx %{buildroot}%{_bindir}/zmx
 # Generate and install shell completions

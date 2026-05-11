@@ -32,9 +32,25 @@ jobs:
       - name: Get changed packages
         id: changed-files
         run: |
-          BEFORE_SHA=${{ github.event.before }}
-          CHANGED=$(git diff --name-only $BEFORE_SHA ${{ github.sha }} | grep '\.spec$' || true)
-          echo "files=$CHANGED" >> $GITHUB_OUTPUT
+          BEFORE_SHA="${{ github.event.before }}"
+          AFTER_SHA="${{ github.sha }}"
+
+          if git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+            CHANGED=$(git diff --name-only "$BEFORE_SHA" "$AFTER_SHA" -- '*.spec' || true)
+          else
+            echo "before SHA missing: $BEFORE_SHA"
+            if git rev-parse --verify "${AFTER_SHA}^" >/dev/null 2>&1; then
+              CHANGED=$(git diff --name-only "${AFTER_SHA}^" "$AFTER_SHA" -- '*.spec' || true)
+            else
+              CHANGED=$(git ls-files '*.spec' || true)
+            fi
+          fi
+
+          {
+            echo "files<<EOF"
+            echo "$CHANGED"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       # Runs a set of commands using the runners shell
       - name: Configure copr-cli

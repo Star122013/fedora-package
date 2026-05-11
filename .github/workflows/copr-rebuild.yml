@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  rebuild:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    container: fedora:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Install copr-cli
+        run: dnf install -y git copr-cli
+
+      - name: Get changed packages
+        id: changed-files
+        run: |
+          BEFORE_SHA=${{ github.event.before }}
+          if [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ];
+            BEFORE_SHA="4b825dc642cb6eb9a060e54bf8d69288fbee4904"
+          fi
+          CHANGED=$(git diff --name-only $BEFORE_SHA ${{ github.sha }} | grep '\.spec$' || true)
+          echo "files=$CHANGED" >> $GITHUB_OUTPUT
+
+      # Runs a set of commands using the runners shell
+      - name: Configure copr-cli
+        run: |
+          mkdir -p ~/.config
+          echo "[copr-cli]" > ~/.config/copr
+          echo "login = ${{ secrets.COPR_LOGIN }}" >> ~/.config/copr
+          echo "username = ${{ secrets.COPR_USERNAME }}" >> ~/.config/copr
+          echo "token = ${{ secrets.COPR_TOKEN }}" >> ~/.config/copr
+
+      - name: Rebuild in Copr
+        run: |
+          for file in ${{ steps.changed-files.outputs.files }}; do
+            copr-cli build-package misc-copr --name $(basename $file .spec) --nowait --enable-net
+          done

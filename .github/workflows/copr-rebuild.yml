@@ -57,14 +57,26 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Configure copr-cli
         run: |
+          test -n "${{ secrets.COPR_LOGIN }}" || { echo "COPR_LOGIN is not set"; exit 1; }
+          test -n "${{ secrets.COPR_USERNAME }}" || { echo "COPR_USERNAME is not set"; exit 1; }
+          test -n "${{ secrets.COPR_TOKEN }}" || { echo "COPR_TOKEN is not set"; exit 1; }
+
           mkdir -p ~/.config
-          echo "[copr-cli]" > ~/.config/copr
-          echo "login = ${{ secrets.COPR_LOGIN }}" >> ~/.config/copr
-          echo "username = ${{ secrets.COPR_USERNAME }}" >> ~/.config/copr
-          echo "token = ${{ secrets.COPR_TOKEN }}" >> ~/.config/copr
+          {
+            echo "[copr-cli]"
+            echo "login = ${{ secrets.COPR_LOGIN }}"
+            echo "username = ${{ secrets.COPR_USERNAME }}"
+            echo "token = ${{ secrets.COPR_TOKEN }}"
+            echo "copr_url = https://copr.fedorainfracloud.org"
+          } > ~/.config/copr
 
       - name: Rebuild in Copr
         run: |
+          if [ -z "${{ steps.changed-files.outputs.files }}" ]; then
+            echo "No changed spec files"
+            exit 0
+          fi
+
           for file in ${{ steps.changed-files.outputs.files }}; do
-            copr-cli build-package misc-packages --name $(basename $file .spec) --nowait
+            copr-cli build-package misc-packages --name "$(basename "$file" .spec)" --nowait
           done

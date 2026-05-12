@@ -29,22 +29,16 @@ The editing model is very heavily based on Kakoune; during development I found m
 %autosetup -n helix-master
 %cargo_prep
 
-
 %build
 # This will set the default runtime directly in the binary
 export HELIX_DEFAULT_RUNTIME=%{runtime_directory_path}
-cargo install \
-   --profile opt \
-   --config 'build.rustflags="-C target-cpu=native"' \
-   --path helix-term \
-   --locked
+cargo build --profile opt --locked
 %{cargo_license_summary}
 %{cargo_license} > LICENSE.dependencies
 
 
 %install
-# We can't use %%cargo_install here because it does not support setting --path
-install -Dpm 0755 target/release/%{binary_name} %{buildroot}%{_bindir}/%{binary_name}
+install -Dpm 0755 target/opt/%{binary_name} %{buildroot}%{_bindir}/%{binary_name}
 
 # Ship the whole runtime tree so Helix has themes, queries, languages.toml,
 # tutor, and built grammar shared objects in the expected location.

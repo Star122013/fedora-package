@@ -25,7 +25,8 @@ The editing model is very heavily based on Kakoune; during development I found m
 
 
 %prep
-%autosetup
+# GitHub branch archives extract into helix-master/
+%autosetup -n helix-master
 %cargo_prep
 
 
@@ -45,17 +46,11 @@ export HELIX_DEFAULT_RUNTIME=%{runtime_directory_path}
 # We can't use %%cargo_install here because it does not support setting --path
 install -Dpm 0755 target/release/%{binary_name} %{buildroot}%{_bindir}/%{binary_name}
 
-install -dm 0755 %{buildroot}%{runtime_directory_path}/
-install -dm 0755 %{buildroot}%{runtime_directory_path}/grammars
-install -dm 0755 %{buildroot}%{runtime_directory_path}/queries
-find runtime/queries/ -type d -exec sh -c 'install -dm 0755 $(basename {}) %{buildroot}%{runtime_directory_path}/queries/$(basename {})' \;
-install -dm 0755 %{buildroot}%{runtime_directory_path}/themes
-# Step 2: install files
-install -Dpm 0644 runtime/tutor %{buildroot}%{runtime_directory_path}/tutor
-install -Dpm 0755 runtime/grammars/*.so -t %{buildroot}%{runtime_directory_path}/grammars
-find runtime/queries/ -type f -exec sh -c 'install -Dpm 0644 {} %{buildroot}%{runtime_directory_path}/queries/$(basename $(dirname {}))' \;
-install -Dpm 0644 runtime/themes/*.toml -t %{buildroot}%{runtime_directory_path}/themes
- 
+# Ship the whole runtime tree so Helix has themes, queries, languages.toml,
+# tutor, and built grammar shared objects in the expected location.
+install -dm 0755 %{buildroot}%{_libdir}/helix
+cp -a runtime %{buildroot}%{_libdir}/helix/
+
 # Add shell completions
 install -Dpm 0644 contrib/completion/%{binary_name}.bash %{buildroot}/%{bash_completions_dir}/%{binary_name}
 install -Dpm 0644 contrib/completion/%{binary_name}.fish %{buildroot}/%{fish_completions_dir}/%{binary_name}.fish
@@ -63,9 +58,10 @@ install -Dpm 0644 contrib/completion/%{binary_name}.zsh %{buildroot}/%{zsh_compl
 
 
 %files
-%license LICENSE
+%license LICENSE LICENSE.dependencies
 %doc README.md
 %{_bindir}/%{binary_name}
+%{runtime_directory_path}
 %{bash_completions_dir}/%{binary_name}
 %{fish_completions_dir}/%{binary_name}.fish
 %{zsh_completions_dir}/_%{binary_name}

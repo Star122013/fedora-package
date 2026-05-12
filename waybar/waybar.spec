@@ -5,7 +5,7 @@ Summary:        Highly customizable Wayland bar for Sway and Wlroots based compo
 
 License:        MIT
 URL:            https://github.com/Alexays/Waybar
-Source0:        https://github.com/Alexays/Waybar/archive/refs/tags/%{version}.tar.gz
+Source0:        https://github.com/Alexays/Waybar/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  git
 BuildRequires:  gcc
@@ -49,7 +49,7 @@ Requires:       libcava
 Highly customizable Wayland bar for Sway and Wlroots based compositors. 
 
 %prep
-%autosetup 
+%autosetup -n Waybar-%{version}
 
 
 %build

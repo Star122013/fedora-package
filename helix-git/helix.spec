@@ -41,7 +41,6 @@ export HELIX_DEFAULT_RUNTIME=%{runtime_directory_path}
 
 
 %install
-%install
 # We can't use %%cargo_install here because it does not support setting --path
 install -Dpm 0755 target/release/%{binary_name} %{buildroot}%{_bindir}/%{binary_name}
 

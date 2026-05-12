@@ -43,10 +43,10 @@ BuildRequires:  pkgconfig(wayland-protocols)
 BuildRequires:  pkgconfig(wireplumber-0.5)
 BuildRequires:  pkgconfig(xkbregistry)
 BuildRequires:  pkgconfig(libcava)
-Requires:       
+Requires:       libcava
 
 %description
-
+Highly customizable Wayland bar for Sway and Wlroots based compositors. 
 
 %prep
 %autosetup 

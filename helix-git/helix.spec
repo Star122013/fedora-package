@@ -15,8 +15,6 @@ BuildRequires:  git
 BuildRequires:  clang
 BuildRequires:  gcc
 BuildRequires:  g++
-BuildRequires:  cargo-rpm-macros
-
 
 %description
 A Kakoune / Neovim inspired editor, written in Rust.
@@ -27,14 +25,13 @@ The editing model is very heavily based on Kakoune; during development I found m
 %prep
 # GitHub branch archives extract into helix-master/
 %autosetup -n helix-master
-%cargo_prep
 
 %build
-# This will set the default runtime directly in the binary
+# Build like upstream and allow Cargo to fetch dependencies online.
 export HELIX_DEFAULT_RUNTIME=%{runtime_directory_path}
-cargo build --profile opt --locked
-%{cargo_license_summary}
-%{cargo_license} > LICENSE.dependencies
+export CARGO_HOME=$PWD/.cargo
+mkdir -p "$CARGO_HOME"
+cargo build --path helix-term --locked
 
 
 %install
@@ -52,7 +49,7 @@ install -Dpm 0644 contrib/completion/%{binary_name}.zsh %{buildroot}/%{zsh_compl
 
 
 %files
-%license LICENSE LICENSE.dependencies
+%license LICENSE
 %doc README.md
 %{_bindir}/%{binary_name}
 %{runtime_directory_path}

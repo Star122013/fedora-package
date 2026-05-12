@@ -11,9 +11,9 @@ jobs:
     container: fedora:latest
 
     steps:
-      - uses: actions/checkout@v4
+      - run: dnf install -y git copr-cli findutils
 
-      - run: dnf install -y copr-cli findutils
+      - uses: actions/checkout@v4
 
       - run: |
           mkdir -p ~/.config

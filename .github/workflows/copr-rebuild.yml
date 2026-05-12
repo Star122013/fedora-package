@@ -10,11 +10,11 @@ jobs:
     container: fedora:latest
 
     steps:
+      - run: dnf install -y git copr-cli
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - run: dnf install -y git copr-cli
 
       - run: |
           mkdir -p ~/.config

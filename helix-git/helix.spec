@@ -17,6 +17,7 @@ BuildRequires:  gcc
 BuildRequires:  g++
 BuildRequires:  cargo-rpm-macros
 
+
 %description
 A Kakoune / Neovim inspired editor, written in Rust.
 

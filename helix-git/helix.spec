@@ -33,7 +33,11 @@ The editing model is very heavily based on Kakoune; during development I found m
 %build
 # This will set the default runtime directly in the binary
 export HELIX_DEFAULT_RUNTIME=%{runtime_directory_path}
-%cargo_build
+cargo install \
+   --profile opt \
+   --config 'build.rustflags="-C target-cpu=native"' \
+   --path helix-term \
+   --locked
 %{cargo_license_summary}
 %{cargo_license} > LICENSE.dependencies
 

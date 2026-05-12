@@ -32,7 +32,7 @@ The editing model is very heavily based on Kakoune; during development I found m
 export HELIX_DEFAULT_RUNTIME=%{runtime_directory_path}
 export CARGO_HOME=$PWD/.cargo
 mkdir -p "$CARGO_HOME"
-cargo build --path helix-term --locked
+cargo build --profile opt --locked 
 
 
 %install

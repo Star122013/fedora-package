@@ -30,10 +30,6 @@ The editing model is very heavily based on Kakoune; during development I found m
 %cargo_prep
 
 
-%generate_buildrequires
-%cargo_generate_buildrequires
-
-
 %build
 # This will set the default runtime directly in the binary
 export HELIX_DEFAULT_RUNTIME=%{runtime_directory_path}

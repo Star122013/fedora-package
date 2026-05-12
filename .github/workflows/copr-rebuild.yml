@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - run: dnf install -y git copr-cli
 
@@ -26,11 +26,12 @@ jobs:
           copr_url = https://copr.fedorainfracloud.org
           EOF
 
-      - run: |
+      - shell: bash
+        run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           REPO_URL="${{ github.server_url }}/${{ github.repository }}.git"
 
-          for file in $(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- '*.spec'); do
+          for file in $(git show --name-only --pretty='' "${{ github.sha }}" -- '*.spec'); do
             copr-cli buildscm misc-packages \
               --clone-url "$REPO_URL" \
               --commit "${{ github.sha }}" \

@@ -8,7 +8,7 @@ Summary:        A post-modern modal text editor.
 
 License:        MPL-2.0
 URL:            https://github.com/helix-editor/helix
-Source0:        https://github.com/helix-editor/helix/archive/refs/heads/master.zip#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/helix-editor/helix/archive/refs/heads/master.tar.gz#/%{name}-%{version}.tar.gz
 
 BuildRequires:  rust
 BuildRequires:  git

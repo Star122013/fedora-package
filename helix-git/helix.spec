@@ -11,6 +11,7 @@ URL:            https://github.com/helix-editor/helix
 Source0:        https://github.com/helix-editor/helix/archive/refs/heads/master.tar.gz
 
 BuildRequires:  rust
+BuildRequires:  cargo
 BuildRequires:  git
 BuildRequires:  clang
 BuildRequires:  gcc

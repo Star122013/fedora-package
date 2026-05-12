@@ -63,13 +63,26 @@ Highly customizable Wayland bar for Sway and Wlroots based compositors.
 %meson_install
 
 
+%check
+%meson_test
+
+
+%post
+%systemd_user_post %{name}.service
+ 
+%preun
+%systemd_user_preun %{name}.service
+ 
+ 
 %files
 %license LICENSE
 %doc README.md
 %dir %{_sysconfdir}/xdg/%{name}
 %config(noreplace) %{_sysconfdir}/xdg/%{name}/config.jsonc
 %config(noreplace) %{_sysconfdir}/xdg/%{name}/style.css
-
+%{_bindir}/%{name}
+%{_mandir}/man5/%{name}*
+%{_userunitdir}/%{name}.service
 
 
 %changelog

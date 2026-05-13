@@ -38,10 +38,12 @@ cargo build --profile opt --locked
 %install
 install -Dpm 0755 target/opt/%{binary_name} %{buildroot}%{_bindir}/%{binary_name}
 
-# Ship the whole runtime tree so Helix has themes, queries, languages.toml,
-# tutor, and built grammar shared objects in the expected location.
+# Ship the runtime tree, but drop bundled grammar source/build directories.
+# They contain temporary ELF/node artifacts (for example a.out) that are not
+# meant to be packaged and make find-debuginfo fail on missing build-ids.
 install -dm 0755 %{buildroot}%{_libdir}/helix
 cp -a runtime %{buildroot}%{_libdir}/helix/
+rm -rf %{buildroot}%{runtime_directory_path}/grammars/sources
 
 # Add shell completions
 install -Dpm 0644 contrib/completion/%{binary_name}.bash %{buildroot}/%{bash_completions_dir}/%{binary_name}

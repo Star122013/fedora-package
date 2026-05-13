@@ -1,11 +1,11 @@
 Name:           zmx
-Version:        0.5.0
+Version:        nightly
 Release:        %autorelease
 Summary:        Session persistence for terminal processes.
 
 License:        MIT
 URL:            https://github.com/neurosnap/zmx
-Source0:        https://github.com/neurosnap/zmx/archive/refs/tags/v%{version}.tar.gz
+Source0:        https://github.com/neurosnap/zmx/archive/refs/heads/main.tar.gz
 
 BuildRequires:  (zig >= 0.15.2 with zig < 0.16)
 BuildRequires:  tar
@@ -15,7 +15,8 @@ BuildRequires:  git-core
 Session persistence for terminal processes.
 
 %prep
-%autosetup 
+# GitHub branch archives extract into zmx-main/
+%autosetup -n zmx-main
 
 %build
 # Zig does not automatically honor RPM's LDFLAGS for build-id, so pass it explicitly.

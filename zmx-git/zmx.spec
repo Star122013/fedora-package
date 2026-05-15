@@ -21,7 +21,7 @@ Session persistence for terminal processes.
 %build
 # Zig does not automatically honor RPM's LDFLAGS for build-id, so pass it explicitly.
 # Avoid pinning an exact glibc minor version; Zig 0.15 currently falls back from 2.43 to 2.42.
-zig build --prefix "zig-out"
+zig build --build-id=sha1 -Doptimize=ReleaseSafe -Dtarget=x86_64-linux-gnu.2.43 --prefix "zig-out"
 
 %install
 install -Dm755 zig-out/bin/zmx %{buildroot}%{_bindir}/zmx

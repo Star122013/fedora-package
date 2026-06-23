@@ -56,6 +56,7 @@ window manager for X11.
 %install
 %meson_install
 install -Dpm 0644 -t %{buildroot}%{_datadir}/xdg-desktop-portal/ %{SOURCE1}
+install -d %{buildroot}%{_sysconfdir}/sway/config.d
 
 %files
 %license LICENSE

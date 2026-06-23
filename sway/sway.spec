@@ -1,6 +1,6 @@
 %global wlroots_abi 20
 
-Name:           swaywm
+Name:           sway
 Version:        1.12
 Release:        %{autorelease}
 Summary:        i3-compatible Wayland compositor

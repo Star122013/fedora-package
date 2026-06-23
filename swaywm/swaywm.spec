@@ -10,6 +10,8 @@ URL:            https://swaywm.org/
 Source0:        https://github.com/swaywm/sway/releases/download/%{version}/sway-%{version}.tar.gz
 Source1:        sway-portals.conf
 
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
 BuildRequires:  meson >= 1.3
 BuildRequires:  pkgconfig(wlroots-0.%{wlroots_abi}) >= 0.%{wlroots_abi}.0
 BuildRequires:  pkgconfig(json-c) >= 0.13

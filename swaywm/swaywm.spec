@@ -91,7 +91,7 @@ install -d %{buildroot}%{_sysconfdir}/sway/config.d
 %dir %{_sysconfdir}/sway
 %dir %{_sysconfdir}/sway/config.d
 %config(noreplace) %{_sysconfdir}/sway/config
-%config(noreplace) %{_sysconfdir}/sway/config.d/*
+%dir %{_sysconfdir}/sway/config.d
 
 %changelog
 * Tue Jun 23 2026 cyrene <hyy122013@outlook.com> - 1.12-1

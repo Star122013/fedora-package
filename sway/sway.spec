@@ -2,7 +2,7 @@
 
 Name:           sway
 Version:        1.12
-Release:        %{autorelease}
+Release:        %autorelease
 Summary:        i3-compatible Wayland compositor
 
 License:        MIT
@@ -35,7 +35,7 @@ BuildRequires:  scdoc >= 1.9.2
 BuildRequires:  pkgconfig(xcb)
 BuildRequires:  pkgconfig(xcb-icccm)
 
-Requires:       wlroots%{wlroots_abi}
+# SONAME libwlroots-0.XX.so is auto-detected by RPM
 
 %description
 Sway is a tiling Wayland compositor and a drop-in replacement for the i3
@@ -94,5 +94,4 @@ install -d %{buildroot}%{_sysconfdir}/sway/config.d
 %dir %{_sysconfdir}/sway/config.d
 
 %changelog
-* Tue Jun 23 2026 cyrene <hyy122013@outlook.com> - 1.12-1
-- Initial package for swaywm 1.12
+%autochangelog

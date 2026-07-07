@@ -7,20 +7,16 @@ License:        MIT
 URL:            https://github.com/10knamesmore/Mineral
 Source0:        https://github.com/10knamesmore/Mineral/archive/refs/heads/main.tar.gz
 
-BuildRequires:  pkgconfig(cargo)
-BuildRequires:  pkgconfig(rust)
-BuildRequires:  pkgconfig(llvm)
-BuildRequires:  pkgconfig(gcc)
-BuildRequires:  pkgconfig(alsa-lib)
-BuildRequires:  tar
+BuildRequires:  cargo
+BuildRequires:  gcc
+BuildRequires:  pkgconfig(alsa)
 BuildRequires:  git-core
 
 %description
 A multi-source TUI music player in Rust — ratatui frontend, pluggable channel backends, real streaming playback with lyrics & spectrum. 
 
 %prep
-# GitHub branch archives extract into zmx-main/
-%autosetup -n mineral-main
+%autosetup -n Mineral-main
 
 %build
 cargo build --release

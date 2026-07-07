@@ -11,9 +11,10 @@ BuildRequires:  cargo
 BuildRequires:  gcc
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  git-core
+BuildRequires:  pkgconfig(openssl)
 
 %description
-A multi-source TUI music player in Rust — ratatui frontend, pluggable channel backends, real streaming playback with lyrics & spectrum. 
+A multi-source TUI music player in Rust — ratatui frontend, pluggable channel backends, real streaming playback with lyrics & spectrum.
 
 %prep
 %autosetup -n Mineral-main

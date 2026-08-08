@@ -62,21 +62,11 @@ zig build \
   -Demit-termcap
 
 %install
-export ZIG_GLOBAL_CACHE_DIR=%{_builddir}/zig-cache
-DESTDIR=%{buildroot} \
-zig build install \
-  --release=fast \
-  -Dcpu=baseline \
-  -Dpie=true \
-  -Demit-docs \
-  -Demit-terminfo \
-  -Demit-termcap \
-  --prefix %{_prefix} \
-  --prefix-lib-dir %{_libdir} \
-  --prefix-exe-dir %{_bindir} \
-  --prefix-include-dir %{_includedir}
+# Copy the zig-out tree into the buildroot. Default zig build already
+# placed everything (bin, share, icons, man, terminfo) under zig-out/.
+cp -a zig-out/* %{buildroot}/usr/
 
-# Ghostty installs its systemd user unit to share/ when not in
+# Ghostty puts its systemd user unit under share/ when built outside
 # "system package mode"; systemd only searches lib/, so move it.
 mkdir -p %{buildroot}%{_libdir}/systemd/user
 mv %{buildroot}%{_datadir}/systemd/user/app-com.mitchellh.ghostty.service \
@@ -84,9 +74,7 @@ mv %{buildroot}%{_datadir}/systemd/user/app-com.mitchellh.ghostty.service \
 rmdir %{buildroot}%{_datadir}/systemd/user 2>/dev/null || true
 
 # Don't clash with the ncurses-term ghostty entry on F42+
-%if 0%{?fedora} >= 42
 rm -rf %{buildroot}%{_datadir}/terminfo/g/ghostty
-%endif
 
 %files
 %license LICENSE
@@ -123,9 +111,6 @@ rm -rf %{buildroot}%{_datadir}/terminfo/g/ghostty
 %{_datadir}/fish/vendor_completions.d/ghostty.fish
 %{_datadir}/zsh/site-functions/_ghostty
 %{bash_completions_dir}/ghostty.bash
-%if 0%{?fedora} < 42
-%{_datadir}/terminfo/g/ghostty
-%endif
 %{_datadir}/terminfo/x/xterm-ghostty
 %{_datadir}/terminfo/ghostty.terminfo
 %{_datadir}/terminfo/ghostty.termcap

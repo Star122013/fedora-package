@@ -51,45 +51,48 @@ upstream main branch.
 %autosetup -n ghostty-main
 
 %build
+# Build and install in one step: DESTDIR redirects the install into the
+# buildroot, --prefix controls the layout. This avoids the stray zig temp
+# dirs that `zig build install` can copy into the buildroot.
 export ZIG_GLOBAL_CACHE_DIR=%{_builddir}/zig-cache
 mkdir -p "$ZIG_GLOBAL_CACHE_DIR"
+DESTDIR=%{buildroot} \
 zig build \
+  --build-id=sha1 \
+  --prefix %{_prefix} \
   -Doptimize=ReleaseFast \
   -Dcpu=baseline \
   -Dpie=true \
+  -Dstrip=false \
   -Demit-docs \
+  -Demit-themes=true \
   -Demit-terminfo \
   -Demit-termcap
 
-%install
-# zig build install places everything under the buildroot honoring --prefix.
-# DESTDIR shifts the prefix into the buildroot. It reuses the %build artifacts
-# (same project-local cache), so it is incremental, not a full rebuild.
-DESTDIR=%{buildroot} \
-zig build install \
-  -Doptimize=ReleaseFast \
-  -Dcpu=baseline \
-  -Dpie=true \
-  -Demit-docs \
-  -Demit-terminfo \
-  -Demit-termcap \
-  --prefix %{_prefix}
-
 # Ghostty puts its systemd user unit under share/ when built outside
 # "system package mode"; systemd only searches lib/, so move it.
-install -d %{buildroot}%{_libdir}/systemd/user
+# Note: Ghostty installs non-arch-independent files under $(prefix)/lib,
+# not %%{_libdir} (which is lib64 on x86_64), so use %%{_prefix}/lib here.
+install -d %{buildroot}%{_prefix}/lib/systemd/user
 mv %{buildroot}%{_datadir}/systemd/user/app-com.mitchellh.ghostty.service \
-   %{buildroot}%{_libdir}/systemd/user/
+   %{buildroot}%{_prefix}/lib/systemd/user/
 rmdir %{buildroot}%{_datadir}/systemd/user 2>/dev/null || true
 
 # The compiled 'ghostty' terminfo entry clashes with ncurses-term; drop it.
 rm -rf %{buildroot}%{_datadir}/terminfo/g/ghostty
 
+# libghostty-vt is a library for embedding Ghostty's VT engine in other
+# apps. The ghostty terminal itself is statically linked and doesn't need
+# it, so drop the shared/static libs, headers, and pkg-config files.
+rm -rf %{buildroot}%{_prefix}/lib/libghostty-vt.*
+rm -rf %{buildroot}%{_includedir}/ghostty
+rm -rf %{buildroot}%{_datadir}/pkgconfig/libghostty-vt*.pc
+
 %files
 %license LICENSE
 %doc README.md
 %{_bindir}/ghostty
-%{_libdir}/systemd/user/app-com.mitchellh.ghostty.service
+%{_prefix}/lib/systemd/user/app-com.mitchellh.ghostty.service
 %{_datadir}/ghostty/
 %{_datadir}/applications/com.mitchellh.ghostty.desktop
 %{_datadir}/dbus-1/services/com.mitchellh.ghostty.service
@@ -101,8 +104,8 @@ rm -rf %{buildroot}%{_datadir}/terminfo/g/ghostty
 %{_datadir}/vim/
 %{_datadir}/icons/hicolor/*/apps/com.mitchellh.ghostty.png
 %{_datadir}/locale/
-%{_mandir}/man1/ghostty.1.gz
-%{_mandir}/man5/ghostty.5.gz
+%{_mandir}/man1/ghostty.1
+%{_mandir}/man5/ghostty.5
 %{_datadir}/fish/vendor_completions.d/ghostty.fish
 %{_datadir}/zsh/site-functions/_ghostty
 %{bash_completions_dir}/ghostty.bash

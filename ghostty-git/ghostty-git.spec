@@ -16,6 +16,7 @@ BuildRequires:  zig
 BuildRequires:  git-core
 BuildRequires:  gcc
 BuildRequires:  pandoc-cli
+BuildRequires:  blueprint-compiler
 BuildRequires:  ncurses
 BuildRequires:  ncurses-devel
 BuildRequires:  gtk4-devel
@@ -52,7 +53,8 @@ upstream main branch.
 export ZIG_GLOBAL_CACHE_DIR=%{_builddir}/zig-cache
 mkdir -p "$ZIG_GLOBAL_CACHE_DIR"
 zig build \
-  --release=fast \
+  -Doptimize=ReleaseFast \
+  -Dtarget=x86_64-linux-gnu \
   -Dcpu=baseline \
   -Dpie=true \
   -Demit-docs \

@@ -40,6 +40,7 @@ BuildRequires:  pkgconfig(zlib)
 %global _disable_debuginfo_attributes 1
 
 Conflicts:       ghostty
+Requires:        ncurses-term
 
 %description
 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses
@@ -54,7 +55,6 @@ export ZIG_GLOBAL_CACHE_DIR=%{_builddir}/zig-cache
 mkdir -p "$ZIG_GLOBAL_CACHE_DIR"
 zig build \
   -Doptimize=ReleaseFast \
-  -Dtarget=x86_64-linux-gnu \
   -Dcpu=baseline \
   -Dpie=true \
   -Demit-docs \
@@ -62,18 +62,27 @@ zig build \
   -Demit-termcap
 
 %install
-# Copy the zig-out tree into the buildroot. Default zig build already
-# placed everything (bin, share, icons, man, terminfo) under zig-out/.
-cp -a zig-out/* %{buildroot}/usr/
+# zig build install places everything under the buildroot honoring --prefix.
+# DESTDIR shifts the prefix into the buildroot. It reuses the %build artifacts
+# (same project-local cache), so it is incremental, not a full rebuild.
+DESTDIR=%{buildroot} \
+zig build install \
+  -Doptimize=ReleaseFast \
+  -Dcpu=baseline \
+  -Dpie=true \
+  -Demit-docs \
+  -Demit-terminfo \
+  -Demit-termcap \
+  --prefix %{_prefix}
 
 # Ghostty puts its systemd user unit under share/ when built outside
 # "system package mode"; systemd only searches lib/, so move it.
-mkdir -p %{buildroot}%{_libdir}/systemd/user
+install -d %{buildroot}%{_libdir}/systemd/user
 mv %{buildroot}%{_datadir}/systemd/user/app-com.mitchellh.ghostty.service \
    %{buildroot}%{_libdir}/systemd/user/
 rmdir %{buildroot}%{_datadir}/systemd/user 2>/dev/null || true
 
-# Don't clash with the ncurses-term ghostty entry on F42+
+# The compiled 'ghostty' terminfo entry clashes with ncurses-term; drop it.
 rm -rf %{buildroot}%{_datadir}/terminfo/g/ghostty
 
 %files
@@ -85,27 +94,13 @@ rm -rf %{buildroot}%{_datadir}/terminfo/g/ghostty
 %{_datadir}/applications/com.mitchellh.ghostty.desktop
 %{_datadir}/dbus-1/services/com.mitchellh.ghostty.service
 %{_datadir}/metainfo/com.mitchellh.ghostty.metainfo.xml
-%{_datadir}/bat/syntaxes/ghostty.sublime-syntax
-%{_datadir}/kio/servicemenus/com.mitchellh.ghostty.desktop
-%{_datadir}/nautilus-python/extensions/ghostty.py
-%{_datadir}/nvim/site/compiler/ghostty.vim
-%{_datadir}/nvim/site/ftdetect/ghostty.vim
-%{_datadir}/nvim/site/ftplugin/ghostty.vim
-%{_datadir}/nvim/site/syntax/ghostty.vim
-%{_datadir}/vim/vimfiles/compiler/ghostty.vim
-%{_datadir}/vim/vimfiles/ftdetect/ghostty.vim
-%{_datadir}/vim/vimfiles/ftplugin/ghostty.vim
-%{_datadir}/vim/vimfiles/syntax/ghostty.vim
-%{_iconsdir}/hicolor/16x16/apps/com.mitchellh.ghostty.png
-%{_iconsdir}/hicolor/16x16@2/apps/com.mitchellh.ghostty.png
-%{_iconsdir}/hicolor/32x32/apps/com.mitchellh.ghostty.png
-%{_iconsdir}/hicolor/32x32@2/apps/com.mitchellh.ghostty.png
-%{_iconsdir}/hicolor/128x128/apps/com.mitchellh.ghostty.png
-%{_iconsdir}/hicolor/128x128@2/apps/com.mitchellh.ghostty.png
-%{_iconsdir}/hicolor/256x256/apps/com.mitchellh.ghostty.png
-%{_iconsdir}/hicolor/256x256@2/apps/com.mitchellh.ghostty.png
-%{_iconsdir}/hicolor/512x512/apps/com.mitchellh.ghostty.png
-%{_iconsdir}/hicolor/1024x1024/apps/com.mitchellh.ghostty.png
+%{_datadir}/bat/
+%{_datadir}/kio/
+%{_datadir}/nautilus-python/
+%{_datadir}/nvim/
+%{_datadir}/vim/
+%{_datadir}/icons/hicolor/*/apps/com.mitchellh.ghostty.png
+%{_datadir}/locale/
 %{_mandir}/man1/ghostty.1.gz
 %{_mandir}/man5/ghostty.5.gz
 %{_datadir}/fish/vendor_completions.d/ghostty.fish

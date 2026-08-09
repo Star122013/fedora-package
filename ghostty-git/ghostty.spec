@@ -3,7 +3,7 @@
 # The COPR builder has network access, so we let Zig fetch all of Ghostty's
 # dependencies (build.zig.zon) at build time rather than vendoring them.
 
-Name:           ghostty-git
+Name:           ghostty
 Version:        nightly
 Release:        %autorelease
 Summary:        A fast, feature-rich terminal emulator written in Zig (main branch)

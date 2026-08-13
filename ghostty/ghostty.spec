@@ -1,18 +1,18 @@
-# Ghostty pinned to the upstream v1.3.1 release tag.
+# Ghostty nightly build tracking the upstream main branch.
 #
 # The COPR builder has network access, so we let Zig fetch all of Ghostty's
 # dependencies (build.zig.zon) at build time rather than vendoring them.
 
 Name:           ghostty
-Version:        1.3.1
+Version:        nightly
 Release:        %autorelease
-Summary:        A fast, feature-rich terminal emulator written in Zig
+Summary:        A fast, feature-rich terminal emulator written in Zig (main branch)
 
 License:        MIT AND MPL-2.0 AND OFL-1.1 AND CC0-1.0 AND Apache-2.0
 URL:            https://ghostty.org/
-Source0:        https://github.com/ghostty-org/ghostty/archive/refs/tags/v1.3.1.tar.gz
+Source0:        https://github.com/ghostty-org/ghostty/archive/refs/heads/main.tar.gz
 
-BuildRequires:  (zig >= 0.15.2 with zig < 0.16)
+BuildRequires:  (zig >= 0.16 with zig < 0.17)
 BuildRequires:  git-core
 BuildRequires:  gcc
 BuildRequires:  pandoc-cli
@@ -44,11 +44,11 @@ Requires:        ncurses-term
 
 %description
 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses
-platform-native UI and GPU acceleration. This package is pinned to the
-upstream v1.3.1 release.
+platform-native UI and GPU acceleration. This is a nightly build tracking the
+upstream main branch.
 
 %prep
-%autosetup -n ghostty-1.3.1
+%autosetup -n ghostty-main
 
 %build
 # Build and install in one step: DESTDIR redirects the install into the

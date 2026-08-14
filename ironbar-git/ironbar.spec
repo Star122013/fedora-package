@@ -1,9 +1,8 @@
-%global commit   %(git ls-remote https://github.com/JakeStanger/ironbar refs/heads/master | head -c8)
 %global snap_date %(date -u +%%Y%%m%%d)
 
 Name:           ironbar
 Version:        0.19.0
-Release:        1.%{snap_date}git%{commit}%{?dist}
+Release:        1.%{snap_date}%{?dist}
 Summary:        Customisable Wayland GTK4 bar written in Rust.
 
 License:        MIT

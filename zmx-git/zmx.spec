@@ -1,9 +1,8 @@
-%global commit   %(git ls-remote https://github.com/neurosnap/zmx refs/heads/main | head -c8)
 %global snap_date %(date -u +%%Y%%m%%d)
 
 Name:           zmx
 Version:        0.7.0
-Release:        1.%{snap_date}git%{commit}%{?dist}
+Release:        1.%{snap_date}%{?dist}
 Summary:        Session persistence for terminal processes.
 
 License:        MIT

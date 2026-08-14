@@ -1,9 +1,11 @@
 %global binary_name hx
 %global runtime_directory_path %{_libdir}/helix/runtime
+%global commit   %(git ls-remote https://github.com/helix-editor/helix refs/heads/master | head -c8)
+%global snap_date %(date -u +%%Y%%m%%d)
 
 Name:           helix
-Version:        nightly
-Release:        %{autorelease}
+Version:        25.07.1
+Release:        1.%{snap_date}git%{commit}%{?dist}
 Summary:        A post-modern modal text editor.
 
 License:        MPL-2.0

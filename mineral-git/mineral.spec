@@ -1,6 +1,9 @@
+%global commit   %(git ls-remote https://github.com/10knamesmore/Mineral refs/heads/main | head -c8)
+%global snap_date %(date -u +%%Y%%m%%d)
+
 Name:           mineral
-Version:        nightly
-Release:        %autorelease
+Version:        0.5.5
+Release:        1.%{snap_date}git%{commit}%{?dist}
 Summary:        A multi-source TUI music player in Rust — ratatui frontend, pluggable channel backends, real streaming playback with lyrics & spectrum.
 
 License:        MIT

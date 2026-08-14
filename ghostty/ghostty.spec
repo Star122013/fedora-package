@@ -3,9 +3,12 @@
 # The COPR builder has network access, so we let Zig fetch all of Ghostty's
 # dependencies (build.zig.zon) at build time rather than vendoring them.
 
+%global commit   %(git ls-remote https://github.com/ghostty-org/ghostty refs/heads/main | head -c8)
+%global snap_date %(date -u +%%Y%%m%%d)
+
 Name:           ghostty
-Version:        nightly
-Release:        %autorelease
+Version:        1.3.1
+Release:        1.%{snap_date}git%{commit}%{?dist}
 Summary:        A fast, feature-rich terminal emulator written in Zig (main branch)
 
 License:        MIT AND MPL-2.0 AND OFL-1.1 AND CC0-1.0 AND Apache-2.0

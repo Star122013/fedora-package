@@ -48,8 +48,8 @@ npm run build -- \
 %install
 install -dm 0755 %{buildroot}%{_datadir}/fonts/%{name}
 # Iosevka 把 hinted TTF 放在 dist/<Plan>/TTF/*.ttf (unhinted 在 TTF-Unhinted/),
-# 所以必须递归查找, 且只取 TTF/ 目录。
-find %{buildsubdir}/dist -path '*/TTF/*.ttf' \
+# 所以必须递归查找, 且只取 TTF/ 目录。用绝对路径, 不依赖 %install 的 cwd。
+find %{_builddir}/%{buildsubdir}/dist -path '*/TTF/*.ttf' \
   -exec install -pm 0644 {} %{buildroot}%{_datadir}/fonts/%{name}/ \;
 
 %files

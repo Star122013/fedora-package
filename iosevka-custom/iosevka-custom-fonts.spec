@@ -13,6 +13,10 @@ URL:            https://github.com/be5invis/Iosevka
 Source0:        https://github.com/be5invis/Iosevka/archive/refs/tags/v%{version}.tar.gz
 Source1:        private-build-plans.toml
 
+# 字体与架构无关; noarch 同时也关闭 debuginfo/debugsource 生成
+# (否则空 debugsourcefiles.list 会让构建失败)。
+BuildArch:      noarch
+
 BuildRequires:  nodejs
 BuildRequires:  npm
 BuildRequires:  ttfautohint

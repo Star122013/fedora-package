@@ -1,0 +1,251 @@
+# =====================================================================
+# Iosevka 自定义构建计划 (License: OFL-1.1)
+# 两种风格(ss08 / ss20-Curly) x 三种 spacing(fontconfig-mono / term / normal)
+# 产物在 dist/。打包走 spec 里的 ttf:: 单次构建。
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# 风格一: ss08 (Pragmata Pro 风格) + 零/g/i 定制
+# ---------------------------------------------------------------------
+[buildPlans.IosevkaStar]
+family = "Iosevka Star"
+spacing = "fontconfig-mono"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = false
+
+  [buildPlans.IosevkaStar.variants]
+  inherits = "ss08"
+
+    [buildPlans.IosevkaStar.variants.design]
+    zero = "reverse-slashed"
+    g = "single-storey-earless-corner"
+    i = "serifed"
+
+    [buildPlans.IosevkaStar.variants.italic]
+    zero = "reverse-slashed"
+    g = "single-storey-earless-corner"
+    i = "serifed"
+
+  [buildPlans.IosevkaStar.ligations]
+  inherits = "clike"
+
+[buildPlans.IosevkaStar.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.IosevkaStar.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.IosevkaStar.slopes.Upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+[buildPlans.IosevkaStar.slopes.Italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+
+[buildPlans.IosevkaStarTerm]
+family = "Iosevka Star Term"
+spacing = "term"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = false
+
+  [buildPlans.IosevkaStarTerm.variants]
+  inherits = "ss08"
+
+    [buildPlans.IosevkaStarTerm.variants.design]
+    zero = "reverse-slashed"
+    g = "single-storey-earless-corner"
+    i = "serifed"
+
+    [buildPlans.IosevkaStarTerm.variants.italic]
+    zero = "reverse-slashed"
+    g = "single-storey-earless-corner"
+    i = "serifed"
+
+  [buildPlans.IosevkaStarTerm.ligations]
+  inherits = "clike"
+
+[buildPlans.IosevkaStarTerm.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.IosevkaStarTerm.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.IosevkaStarTerm.slopes.Upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+[buildPlans.IosevkaStarTerm.slopes.Italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+
+[buildPlans.IosevkaStarNormal]
+family = "Iosevka Star Normal"
+spacing = "normal"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = false
+
+  [buildPlans.IosevkaStarNormal.variants]
+  inherits = "ss08"
+
+    [buildPlans.IosevkaStarNormal.variants.design]
+    zero = "reverse-slashed"
+    g = "single-storey-earless-corner"
+    i = "serifed"
+
+    [buildPlans.IosevkaStarNormal.variants.italic]
+    zero = "reverse-slashed"
+    g = "single-storey-earless-corner"
+    i = "serifed"
+
+  [buildPlans.IosevkaStarNormal.ligations]
+  inherits = "clike"
+
+[buildPlans.IosevkaStarNormal.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.IosevkaStarNormal.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.IosevkaStarNormal.slopes.Upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+[buildPlans.IosevkaStarNormal.slopes.Italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+
+# ---------------------------------------------------------------------
+# 风格二: ss20 (Curly 风格), 无逐字形定制, 仅继承 ss20
+# ---------------------------------------------------------------------
+[buildPlans.IosevkaCurly]
+family = "Iosevka Curly"
+spacing = "fontconfig-mono"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = false
+
+  [buildPlans.IosevkaCurly.variants]
+  inherits = "ss20"
+
+  [buildPlans.IosevkaCurly.ligations]
+  inherits = "clike"
+
+[buildPlans.IosevkaCurly.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.IosevkaCurly.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.IosevkaCurly.slopes.Upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+[buildPlans.IosevkaCurly.slopes.Italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+
+[buildPlans.IosevkaCurlyTerm]
+family = "Iosevka Curly Term"
+spacing = "term"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = false
+
+  [buildPlans.IosevkaCurlyTerm.variants]
+  inherits = "ss20"
+
+  [buildPlans.IosevkaCurlyTerm.ligations]
+  inherits = "clike"
+
+[buildPlans.IosevkaCurlyTerm.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.IosevkaCurlyTerm.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.IosevkaCurlyTerm.slopes.Upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+[buildPlans.IosevkaCurlyTerm.slopes.Italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+
+[buildPlans.IosevkaCurlyNormal]
+family = "Iosevka Curly Normal"
+spacing = "normal"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = false
+
+  [buildPlans.IosevkaCurlyNormal.variants]
+  inherits = "ss20"
+
+  [buildPlans.IosevkaCurlyNormal.ligations]
+  inherits = "clike"
+
+[buildPlans.IosevkaCurlyNormal.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.IosevkaCurlyNormal.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.IosevkaCurlyNormal.slopes.Upright]
+angle = 0
+shape = "upright"
+menu = "upright"
+css = "normal"
+
+[buildPlans.IosevkaCurlyNormal.slopes.Italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"

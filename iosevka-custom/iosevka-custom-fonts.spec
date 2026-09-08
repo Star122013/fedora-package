@@ -36,13 +36,20 @@ export npm_config_cache=%{_builddir}/npm-cache
 mkdir -p "$npm_config_cache"
 
 npm ci --ignore-scripts
-# ttf::           只出 TTF, 跳过 webfont(woff2/css), 更快
+# ttf::<Plan>     只出 TTF, 跳过 webfont(woff2/css), 更快。
+#                 verda 的 ttf 目标需要一个 plan 名, 空的 ttf:: 会报
+#                 "Build plan for '' not found", 必须逐个列出全部 plan。
 # --jCmd=2        限制并行 job, 防 OOM
-npm run build -- ttf:: --jCmd=2
+npm run build -- \
+  ttf::IosevkaStar ttf::IosevkaStarTerm ttf::IosevkaStarNormal \
+  ttf::IosevkaCurly ttf::IosevkaCurlyTerm ttf::IosevkaCurlyNormal \
+  --jCmd=2
 
 %install
 install -dm 0755 %{buildroot}%{_datadir}/fonts/%{name}
-find %{buildsubdir}/dist -maxdepth 1 -name '*.ttf' \
+# Iosevka 把 hinted TTF 放在 dist/<Plan>/TTF/*.ttf (unhinted 在 TTF-Unhinted/),
+# 所以必须递归查找, 且只取 TTF/ 目录。
+find %{buildsubdir}/dist -path '*/TTF/*.ttf' \
   -exec install -pm 0644 {} %{buildroot}%{_datadir}/fonts/%{name}/ \;
 
 %files
